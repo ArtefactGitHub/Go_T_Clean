@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/ArtefactGitHub/Go_T_Clean/external/controller"
+	"github.com/ArtefactGitHub/Go_T_Clean/external/middleware"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/model"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/route"
 	"github.com/gorilla/mux"
@@ -29,7 +30,7 @@ func main() {
 
 	address := fmt.Sprintf("%s:%s", url, port)
 	log.Printf("running on %s", address)
-	log.Fatal(http.ListenAndServe(address, router))
+	log.Fatal(http.ListenAndServe(address, middleware.MethodOverride(router)))
 }
 
 func getRoutes() []model.Route {

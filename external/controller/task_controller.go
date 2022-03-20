@@ -115,12 +115,11 @@ func (c TaskController) Delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	success, err := c.taskInteractor.Delete(id)
+	_, err = c.taskInteractor.Delete(id)
 	if err != nil {
 		w.Write([]byte(err.Error()))
 		return
 	}
 
-	fmt.Println(success)
 	http.Redirect(w, r, "/task", http.StatusMovedPermanently)
 }
