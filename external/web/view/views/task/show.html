@@ -1,0 +1,31 @@
+{{ define "content" }}
+
+<h2># タスク詳細</h2>
+
+<div class="card">
+  <div class="card-title"></div>
+  <div class="card-body">
+    <div>
+      [ID] : [タスク名]<br>
+      ----------------------------
+    </div>
+    <div>
+      [{{.Id}}] : {{ .Name }}
+    </div>
+
+    <a href="/task/edit/{{.Id}}">編集</a>
+
+    <form method="post" action="/task/{{.Id}}">
+      <input type="hidden" name="_method" value="DELETE">
+      <input type="submit" value="削除">
+    </form>
+
+  </div>
+</div>
+
+<div>
+  <br>
+  <a href="/task">タスク一覧</a>
+</div>
+
+{{ end }}

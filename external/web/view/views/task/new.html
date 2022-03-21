@@ -1,0 +1,23 @@
+{{ define "content" }}
+
+<h2># タスク作成</h2>
+
+<div class="card">
+  <div class="card-title">▼作成</div>
+  <form action="/task" method="post">
+    <div class="card-row">
+      <label for="name" class="card-label">タスク名</label>
+      <input type="text" name="name" id="name" required>
+    </div>
+    <div>
+      <input type="submit" value="追加！">
+    </div>
+  </form>
+</div>
+
+<div>
+  <br>
+  <a href="/task">タスク一覧</a>
+</div>
+
+{{ end }}
