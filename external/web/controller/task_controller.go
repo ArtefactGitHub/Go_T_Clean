@@ -8,6 +8,7 @@ import (
 
 	"github.com/ArtefactGitHub/Go_T_Clean/domain/interactor"
 	"github.com/ArtefactGitHub/Go_T_Clean/domain/model"
+	"github.com/ArtefactGitHub/Go_T_Clean/external/web/config"
 	"github.com/gorilla/mux"
 )
 
@@ -29,13 +30,13 @@ func (c TaskController) Index(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	t, _ := template.ParseFiles(layoutFile, toPath(taskViewFilePath, "index"))
-	t.ExecuteTemplate(w, layoutName, response)
+	t, _ := template.ParseFiles(config.LayoutFile, config.ToPath(taskViewFilePath, "index"))
+	t.ExecuteTemplate(w, config.LayoutName, response)
 }
 
 func (c TaskController) New(w http.ResponseWriter, r *http.Request) {
-	t, _ := template.ParseFiles(layoutFile, toPath(taskViewFilePath, "new"))
-	t.ExecuteTemplate(w, layoutName, nil)
+	t, _ := template.ParseFiles(config.LayoutFile, config.ToPath(taskViewFilePath, "new"))
+	t.ExecuteTemplate(w, config.LayoutName, nil)
 }
 
 func (c TaskController) Create(w http.ResponseWriter, r *http.Request) {
@@ -65,8 +66,8 @@ func (c TaskController) Show(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	t, _ := template.ParseFiles(layoutFile, toPath(taskViewFilePath, "show"))
-	t.ExecuteTemplate(w, layoutName, task)
+	t, _ := template.ParseFiles(config.LayoutFile, config.ToPath(taskViewFilePath, "show"))
+	t.ExecuteTemplate(w, config.LayoutName, task)
 }
 
 func (c TaskController) Edit(w http.ResponseWriter, r *http.Request) {
@@ -83,8 +84,8 @@ func (c TaskController) Edit(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	t, _ := template.ParseFiles(layoutFile, toPath(taskViewFilePath, "edit"))
-	t.ExecuteTemplate(w, layoutName, task)
+	t, _ := template.ParseFiles(config.LayoutFile, config.ToPath(taskViewFilePath, "edit"))
+	t.ExecuteTemplate(w, config.LayoutName, task)
 }
 
 func (c TaskController) Update(w http.ResponseWriter, r *http.Request) {

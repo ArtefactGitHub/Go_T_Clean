@@ -3,8 +3,8 @@ package route
 import (
 	"net/http"
 
-	"github.com/ArtefactGitHub/Go_T_Clean/external/controller"
-	"github.com/ArtefactGitHub/Go_T_Clean/external/model"
+	"github.com/ArtefactGitHub/Go_T_Clean/external/web/controller"
+	"github.com/ArtefactGitHub/Go_T_Clean/external/web/model"
 )
 
 type TaskRoute struct {
