@@ -35,9 +35,9 @@ func NewCommand(intr interactor.TaskInteractor, args []string) (Command, error) 
 		return newDeleteCommand(args, intr), nil
 	case constant.Help:
 		return newHelpCommand(), nil
-	case constant.Exit, constant.None:
+	case constant.Exit:
 		return newExitCommand(), nil
 	}
 
-	return newExitCommand(), nil
+	return newNoneCommand(), nil
 }
