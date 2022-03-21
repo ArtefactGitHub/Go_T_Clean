@@ -1,31 +1,36 @@
 package command
 
 import (
+	"github.com/ArtefactGitHub/Go_T_Clean/domain/interactor"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/console/constant"
 )
 
-type CommandParm struct {
-	CommandType constant.CommandType
-	Arg         interface{}
+type Command interface {
+	Do() (bool, error)
 }
 
-func NewCommandParam(commandName string, arg interface{}) CommandParm {
-	switch commandName {
-	case "readall":
-		return CommandParm{CommandType: constant.ReadAll, Arg: arg}
-	case "read":
-		return CommandParm{CommandType: constant.Read, Arg: arg}
-	case "create":
-		return CommandParm{CommandType: constant.Create, Arg: arg}
-	case "update":
-		return CommandParm{CommandType: constant.Update, Arg: arg}
-	case "delete":
-		return CommandParm{CommandType: constant.Delete, Arg: arg}
-	case "help":
-		return CommandParm{CommandType: constant.Help, Arg: arg}
-	case "exit", "":
-		return CommandParm{CommandType: constant.Exit, Arg: arg}
+func NewCommand(commandName string, arg string, arg2 string, intr interactor.TaskInteractor) (Command, error) {
+	cmdType, err := constant.ParseCommandType(commandName)
+	if err != nil {
+		return nil, err
 	}
 
-	return CommandParm{CommandType: constant.None, Arg: arg}
+	switch cmdType {
+	case constant.ReadAll:
+		return newReadAllCommand(intr), nil
+	case constant.Read:
+		return newReadCommand(arg, intr), nil
+	case constant.Create:
+		return newCreateCommand(arg, intr), nil
+	case constant.Update:
+		return newUpdateCommand(arg, arg2, intr), nil
+	case constant.Delete:
+		return newDeleteCommand(arg, intr), nil
+	case constant.Help:
+		return newHelpCommand(), nil
+	case constant.Exit, constant.None:
+		return newExitCommand(), nil
+	}
+
+	return newExitCommand(), nil
 }
