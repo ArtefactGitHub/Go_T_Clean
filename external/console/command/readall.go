@@ -1,6 +1,7 @@
 package command
 
 import (
+	"errors"
 	"fmt"
 	"os"
 
@@ -8,15 +9,20 @@ import (
 )
 
 type readall struct {
+	args []string
 	interactor.TaskInteractor
 }
 
-func newReadAllCommand(intr interactor.TaskInteractor) Command {
-	cmd := readall{TaskInteractor: intr}
+func newReadAllCommand(args []string, intr interactor.TaskInteractor) Command {
+	cmd := readall{args: args, TaskInteractor: intr}
 	return &cmd
 }
 
 func (cmd *readall) Do() (bool, error) {
+	if len(cmd.args) != 1 {
+		return true, errors.New("invalid argument")
+	}
+
 	tasks, err := cmd.TaskInteractor.GetAll()
 	if err != nil {
 		return false, err

@@ -2,7 +2,6 @@ package console
 
 import (
 	"bufio"
-	"errors"
 	"fmt"
 	"os"
 	"strings"
@@ -49,13 +48,5 @@ func (app *App) parseCommand(input string) (command.Command, error) {
 	trimed := strings.TrimSpace(input)
 
 	splits := strings.Split(trimed, " ")
-	if len(splits) == 1 {
-		return command.NewCommand(splits[0], "", "", app.interactor)
-	} else if len(splits) == 2 {
-		return command.NewCommand(splits[0], splits[1], "", app.interactor)
-	} else if len(splits) == 3 {
-		return command.NewCommand(splits[0], splits[1], splits[2], app.interactor)
-	}
-
-	return nil, errors.New("invalid input. please check the help")
+	return command.NewCommand(app.interactor, splits)
 }

@@ -10,18 +10,22 @@ import (
 )
 
 type delete struct {
-	idStr string
-	id    int
+	args []string
+	id   int
 	interactor.TaskInteractor
 }
 
-func newDeleteCommand(idStr string, intr interactor.TaskInteractor) Command {
-	cmd := delete{idStr: idStr, TaskInteractor: intr}
+func newDeleteCommand(args []string, intr interactor.TaskInteractor) Command {
+	cmd := delete{args: args, TaskInteractor: intr}
 	return &cmd
 }
 
 func (cmd *delete) Do() (bool, error) {
-	if id, err := strconv.Atoi(cmd.idStr); err != nil {
+	if len(cmd.args) != 2 {
+		return true, errors.New("invalid argument")
+	}
+
+	if id, err := strconv.Atoi(cmd.args[1]); err != nil {
 		return true, errors.New("invalid argument")
 	} else {
 		cmd.id = id

@@ -1,6 +1,8 @@
 package command
 
 import (
+	"errors"
+
 	"github.com/ArtefactGitHub/Go_T_Clean/domain/interactor"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/console/constant"
 )
@@ -9,23 +11,28 @@ type Command interface {
 	Do() (bool, error)
 }
 
-func NewCommand(commandName string, arg string, arg2 string, intr interactor.TaskInteractor) (Command, error) {
-	cmdType, err := constant.ParseCommandType(commandName)
+func NewCommand(intr interactor.TaskInteractor, args []string) (Command, error) {
+	length := len(args)
+	if length == 0 {
+		return nil, errors.New("invalid input. please check the help")
+	}
+
+	cmdType, err := constant.ParseCommandType(args[0])
 	if err != nil {
 		return nil, err
 	}
 
 	switch cmdType {
 	case constant.ReadAll:
-		return newReadAllCommand(intr), nil
+		return newReadAllCommand(args, intr), nil
 	case constant.Read:
-		return newReadCommand(arg, intr), nil
+		return newReadCommand(args, intr), nil
 	case constant.Create:
-		return newCreateCommand(arg, intr), nil
+		return newCreateCommand(args, intr), nil
 	case constant.Update:
-		return newUpdateCommand(arg, arg2, intr), nil
+		return newUpdateCommand(args, intr), nil
 	case constant.Delete:
-		return newDeleteCommand(arg, intr), nil
+		return newDeleteCommand(args, intr), nil
 	case constant.Help:
 		return newHelpCommand(), nil
 	case constant.Exit, constant.None:

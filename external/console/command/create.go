@@ -1,6 +1,7 @@
 package command
 
 import (
+	"errors"
 	"fmt"
 	"os"
 
@@ -9,17 +10,21 @@ import (
 )
 
 type create struct {
-	name string
+	args []string
 	interactor.TaskInteractor
 }
 
-func newCreateCommand(name string, intr interactor.TaskInteractor) Command {
-	cmd := create{name: name, TaskInteractor: intr}
+func newCreateCommand(args []string, intr interactor.TaskInteractor) Command {
+	cmd := create{args: args, TaskInteractor: intr}
 	return &cmd
 }
 
 func (cmd *create) Do() (bool, error) {
-	task := model.NewTask(0, cmd.name)
+	if len(cmd.args) != 2 {
+		return true, errors.New("invalid argument")
+	}
+
+	task := model.NewTask(0, cmd.args[1])
 	id, err := cmd.TaskInteractor.Create(task)
 	if err != nil {
 		return false, err
