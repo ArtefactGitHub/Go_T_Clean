@@ -6,17 +6,17 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/ArtefactGitHub/Go_T_Clean/domain/interactor"
 	"github.com/ArtefactGitHub/Go_T_Clean/domain/model"
+	"github.com/ArtefactGitHub/Go_T_Clean/usecase/interfaces"
 )
 
 type update struct {
 	args []string
 	id   int
-	interactor.TaskInteractor
+	interfaces.TaskInteractor
 }
 
-func newUpdateCommand(args []string, intr interactor.TaskInteractor) Command {
+func newUpdateCommand(args []string, intr interfaces.TaskInteractor) Command {
 	cmd := update{args: args, TaskInteractor: intr}
 	return &cmd
 }

@@ -5,16 +5,16 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/ArtefactGitHub/Go_T_Clean/domain/interactor"
 	"github.com/ArtefactGitHub/Go_T_Clean/domain/model"
+	"github.com/ArtefactGitHub/Go_T_Clean/usecase/interfaces"
 )
 
 type create struct {
 	args []string
-	interactor.TaskInteractor
+	interfaces.TaskInteractor
 }
 
-func newCreateCommand(args []string, intr interactor.TaskInteractor) Command {
+func newCreateCommand(args []string, intr interfaces.TaskInteractor) Command {
 	cmd := create{args: args, TaskInteractor: intr}
 	return &cmd
 }

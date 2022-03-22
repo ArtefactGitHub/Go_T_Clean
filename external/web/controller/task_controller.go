@@ -6,21 +6,21 @@ import (
 	"strconv"
 	"text/template"
 
-	"github.com/ArtefactGitHub/Go_T_Clean/domain/interactor"
 	"github.com/ArtefactGitHub/Go_T_Clean/domain/model"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/web/config"
+	"github.com/ArtefactGitHub/Go_T_Clean/usecase/interfaces"
 	"github.com/gorilla/mux"
 )
 
 const taskViewFilePath string = "task/"
 
 type TaskController struct {
-	taskInteractor *interactor.TaskInteractor
+	taskInteractor interfaces.TaskInteractor
 }
 
-func NewTaskController() TaskController {
-	i := interactor.NewTaskInteractor()
-	return TaskController{taskInteractor: &i}
+func NewTaskController(interactor interfaces.TaskInteractor) TaskController {
+	i := interactor
+	return TaskController{taskInteractor: i}
 }
 
 func (c TaskController) Index(w http.ResponseWriter, r *http.Request) {

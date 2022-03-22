@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/ArtefactGitHub/Go_T_Clean/domain/interactor"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/web/controller"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/web/middleware"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/web/model"
@@ -36,5 +37,6 @@ func (app *App) Run() {
 }
 
 func getRoutes() []model.Route {
-	return route.NewTaskRoute().GetRoutes()
+	interactor := interactor.NewTaskInteractor()
+	return route.NewTaskRoute(interactor).GetRoutes()
 }

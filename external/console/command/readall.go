@@ -5,15 +5,15 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/ArtefactGitHub/Go_T_Clean/domain/interactor"
+	"github.com/ArtefactGitHub/Go_T_Clean/usecase/interfaces"
 )
 
 type readall struct {
 	args []string
-	interactor.TaskInteractor
+	interfaces.TaskInteractor
 }
 
-func newReadAllCommand(args []string, intr interactor.TaskInteractor) Command {
+func newReadAllCommand(args []string, intr interfaces.TaskInteractor) Command {
 	cmd := readall{args: args, TaskInteractor: intr}
 	return &cmd
 }

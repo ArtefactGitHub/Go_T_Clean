@@ -8,10 +8,11 @@ import (
 
 	"github.com/ArtefactGitHub/Go_T_Clean/domain/interactor"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/console/command"
+	"github.com/ArtefactGitHub/Go_T_Clean/usecase/interfaces"
 )
 
 type App struct {
-	interactor interactor.TaskInteractor
+	interactor interfaces.TaskInteractor
 }
 
 func (app *App) Run() {
