@@ -8,15 +8,19 @@ import (
 
 	"github.com/ArtefactGitHub/Go_T_Clean/domain/interactor"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/console/command"
+	"github.com/ArtefactGitHub/Go_T_Clean/infurastructure"
 	"github.com/ArtefactGitHub/Go_T_Clean/usecase/interfaces"
 )
 
 type App struct {
 	interactor interfaces.TaskInteractor
+	repository interfaces.TaskRepository
 }
 
 func (app *App) Run() {
-	app.interactor = interactor.NewTaskInteractor()
+	app.repository = infurastructure.NewInMemoryTaskRepository()
+	app.interactor = interactor.NewTaskInteractor(app.repository)
+
 	_ = app.stringPrompt("\n" + `Input <Command> or "help" or press Enter to exit.`)
 }
 

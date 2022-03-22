@@ -1,18 +1,21 @@
 package infurastructure
 
-import "github.com/ArtefactGitHub/Go_T_Clean/domain/model"
+import (
+	"github.com/ArtefactGitHub/Go_T_Clean/domain/model"
+	"github.com/ArtefactGitHub/Go_T_Clean/usecase/interfaces"
+)
 
 type InMemoryTaskRepository struct {
 	tasks []model.Task
 }
 
-func NewTaskRepository() InMemoryTaskRepository {
+func NewInMemoryTaskRepository() interfaces.TaskRepository {
 	// 仮データ
 	tasks := []model.Task{model.NewTask(0, "first")}
 	r := InMemoryTaskRepository{
 		tasks: tasks,
 	}
-	return r
+	return &r
 }
 
 func (r *InMemoryTaskRepository) GetAll() ([]model.Task, error) {

@@ -10,6 +10,7 @@ import (
 	"github.com/ArtefactGitHub/Go_T_Clean/external/web/middleware"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/web/model"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/web/route"
+	"github.com/ArtefactGitHub/Go_T_Clean/infurastructure"
 	"github.com/gorilla/mux"
 )
 
@@ -37,6 +38,8 @@ func (app *App) Run() {
 }
 
 func getRoutes() []model.Route {
-	interactor := interactor.NewTaskInteractor()
+	repository := infurastructure.NewInMemoryTaskRepository()
+	interactor := interactor.NewTaskInteractor(repository)
+
 	return route.NewTaskRoute(interactor).GetRoutes()
 }

@@ -2,17 +2,15 @@ package interactor
 
 import (
 	"github.com/ArtefactGitHub/Go_T_Clean/domain/model"
-	"github.com/ArtefactGitHub/Go_T_Clean/infurastructure"
 	"github.com/ArtefactGitHub/Go_T_Clean/usecase/interfaces"
 )
 
 type taskInteractor struct {
-	repository *infurastructure.InMemoryTaskRepository
+	repository interfaces.TaskRepository
 }
 
-func NewTaskInteractor() interfaces.TaskInteractor {
-	r := infurastructure.NewTaskRepository()
-	return taskInteractor{repository: &r}
+func NewTaskInteractor(repository interfaces.TaskRepository) interfaces.TaskInteractor {
+	return taskInteractor{repository: repository}
 }
 
 func (i taskInteractor) GetAll() ([]model.Task, error) {
