@@ -13,3 +13,10 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+# my settings
+main
+Go_T_Clean
+*.code-workspace
+tmp/*
+*.logfile

@@ -1,13 +1,15 @@
 package interfaces
 
 import (
+	"context"
+
 	"github.com/ArtefactGitHub/Go_T_Clean/domain/model"
 )
 
 type TaskInteractor interface {
-	GetAll() ([]model.Task, error)
-	Get(id int) (*model.Task, error)
-	Create(task model.Task) (int, error)
-	Update(task model.Task) (*model.Task, error)
-	Delete(id int) (bool, error)
+	GetAll(ctx context.Context) ([]model.Task, error)
+	Get(ctx context.Context, id int) (*model.Task, error)
+	Create(ctx context.Context, task model.Task) (int, error)
+	Update(ctx context.Context, task model.Task) (*model.Task, error)
+	Delete(ctx context.Context, id int) (bool, error)
 }

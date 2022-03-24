@@ -1,6 +1,7 @@
 package command
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"os"
@@ -25,7 +26,7 @@ func (cmd *create) Do() (bool, error) {
 	}
 
 	task := model.NewTask(0, cmd.args[1])
-	id, err := cmd.TaskInteractor.Create(task)
+	id, err := cmd.TaskInteractor.Create(context.TODO(), task)
 	if err != nil {
 		return false, err
 	}
