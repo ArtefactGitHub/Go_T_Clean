@@ -1,6 +1,7 @@
 package command
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"os"
@@ -31,7 +32,7 @@ func (cmd *delete) Do() (bool, error) {
 		cmd.id = id
 	}
 
-	success, err := cmd.TaskInteractor.Delete(cmd.id)
+	success, err := cmd.TaskInteractor.Delete(context.TODO(), cmd.id)
 	if err != nil {
 		return false, err
 	}

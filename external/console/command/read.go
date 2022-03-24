@@ -1,6 +1,7 @@
 package command
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"os"
@@ -31,7 +32,7 @@ func (cmd *read) Do() (bool, error) {
 		cmd.id = id
 	}
 
-	task, err := cmd.TaskInteractor.Get(cmd.id)
+	task, err := cmd.TaskInteractor.Get(context.TODO(), cmd.id)
 	if err != nil {
 		return false, err
 	} else if task == nil {

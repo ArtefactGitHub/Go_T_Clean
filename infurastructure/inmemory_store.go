@@ -11,13 +11,13 @@ type inMemoryTaskRepository struct {
 	tasks []model.Task
 }
 
-func NewInMemoryTaskRepository() interfaces.TaskRepository {
+func NewInMemoryTaskRepository() (interfaces.TaskRepository, error) {
 	// 仮データ
 	tasks := []model.Task{model.NewTask(0, "first")}
 	r := inMemoryTaskRepository{
 		tasks: tasks,
 	}
-	return &r
+	return &r, nil
 }
 
 func (r *inMemoryTaskRepository) Finalize() {}

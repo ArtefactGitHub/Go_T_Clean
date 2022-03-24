@@ -24,7 +24,7 @@ func NewTaskController(interactor interfaces.TaskInteractor) TaskController {
 }
 
 func (c TaskController) Index(w http.ResponseWriter, r *http.Request) {
-	response, err := c.taskInteractor.GetAll()
+	response, err := c.taskInteractor.GetAll(r.Context())
 	if err != nil {
 		w.Write([]byte(err.Error()))
 		return
@@ -43,7 +43,7 @@ func (c TaskController) Create(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	task := model.NewTask(0, r.Form.Get("name"))
 
-	id, err := c.taskInteractor.Create(task)
+	id, err := c.taskInteractor.Create(r.Context(), task)
 	if err != nil {
 		w.Write([]byte(err.Error()))
 		return
@@ -60,7 +60,7 @@ func (c TaskController) Show(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	task, err := c.taskInteractor.Get(id)
+	task, err := c.taskInteractor.Get(r.Context(), id)
 	if err != nil {
 		w.Write([]byte(err.Error()))
 		return
@@ -78,7 +78,7 @@ func (c TaskController) Edit(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	task, err := c.taskInteractor.Get(id)
+	task, err := c.taskInteractor.Get(r.Context(), id)
 	if err != nil {
 		w.Write([]byte(err.Error()))
 		return
@@ -99,7 +99,7 @@ func (c TaskController) Update(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	task := model.NewTask(id, r.Form.Get("name"))
 
-	_, err = c.taskInteractor.Update(task)
+	_, err = c.taskInteractor.Update(r.Context(), task)
 	if err != nil {
 		w.Write([]byte(err.Error()))
 		return
@@ -116,7 +116,7 @@ func (c TaskController) Delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = c.taskInteractor.Delete(id)
+	_, err = c.taskInteractor.Delete(r.Context(), id)
 	if err != nil {
 		w.Write([]byte(err.Error()))
 		return

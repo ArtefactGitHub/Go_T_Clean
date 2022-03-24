@@ -2,7 +2,7 @@ package model
 
 import "fmt"
 
-type MysqlSetting struct {
+type MySqlSetting struct {
 	sqlDriver string
 	user      string
 	password  string
@@ -17,8 +17,8 @@ func NewMySqlSetting(
 	password string,
 	protocol string,
 	address string,
-	dataBase string) MysqlSetting {
-	s := MysqlSetting{
+	dataBase string) MySqlSetting {
+	s := MySqlSetting{
 		sqlDriver: sqlDriver,
 		user:      user,
 		password:  password,
@@ -29,11 +29,11 @@ func NewMySqlSetting(
 	return s
 }
 
-func (s *MysqlSetting) DriverName() string {
+func (s *MySqlSetting) DriverName() string {
 	return s.sqlDriver
 }
 
-func (s *MysqlSetting) DataSourceName() string {
+func (s *MySqlSetting) DataSourceName() string {
 	return fmt.Sprintf("%s:%s@%s(%s)/%s",
 		s.user,
 		s.password,

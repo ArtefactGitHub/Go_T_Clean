@@ -1,6 +1,7 @@
 package command
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"os"
@@ -23,7 +24,7 @@ func (cmd *readall) Do() (bool, error) {
 		return true, errors.New("invalid argument")
 	}
 
-	tasks, err := cmd.TaskInteractor.GetAll()
+	tasks, err := cmd.TaskInteractor.GetAll(context.TODO())
 	if err != nil {
 		return false, err
 	}

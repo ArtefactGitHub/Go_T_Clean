@@ -13,7 +13,7 @@ type mySqlTaskRepository struct {
 	db *sql.DB
 }
 
-func NewMySqlTaskRepository(setting ifmodel.MysqlSetting) (interfaces.TaskRepository, error) {
+func NewMySqlTaskRepository(setting ifmodel.MySqlSetting) (interfaces.TaskRepository, error) {
 	db, err := sql.Open(setting.DriverName(), setting.DataSourceName())
 	if err != nil {
 		return nil, err
