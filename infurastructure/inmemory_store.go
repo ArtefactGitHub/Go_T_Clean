@@ -1,28 +1,32 @@
 package infurastructure
 
 import (
+	"context"
+
 	"github.com/ArtefactGitHub/Go_T_Clean/domain/model"
 	"github.com/ArtefactGitHub/Go_T_Clean/usecase/interfaces"
 )
 
-type InMemoryTaskRepository struct {
+type inMemoryTaskRepository struct {
 	tasks []model.Task
 }
 
 func NewInMemoryTaskRepository() interfaces.TaskRepository {
 	// 仮データ
 	tasks := []model.Task{model.NewTask(0, "first")}
-	r := InMemoryTaskRepository{
+	r := inMemoryTaskRepository{
 		tasks: tasks,
 	}
 	return &r
 }
 
-func (r *InMemoryTaskRepository) GetAll() ([]model.Task, error) {
+func (r *inMemoryTaskRepository) Finalize() {}
+
+func (r *inMemoryTaskRepository) GetAll(ctx context.Context) ([]model.Task, error) {
 	return r.tasks, nil
 }
 
-func (r *InMemoryTaskRepository) Get(id int) (*model.Task, error) {
+func (r *inMemoryTaskRepository) Get(ctx context.Context, id int) (*model.Task, error) {
 	exist := r.get(id)
 	if exist != nil {
 		result := model.NewTask(exist.Id, exist.Name)
@@ -32,14 +36,14 @@ func (r *InMemoryTaskRepository) Get(id int) (*model.Task, error) {
 	return nil, nil
 }
 
-func (r *InMemoryTaskRepository) Create(task model.Task) (int, error) {
+func (r *inMemoryTaskRepository) Create(ctx context.Context, task model.Task) (int, error) {
 	id := r.createNewId()
 	newTask := model.NewTask(id, task.Name)
 	r.tasks = append(r.tasks, newTask)
 	return id, nil
 }
 
-func (r *InMemoryTaskRepository) Update(task model.Task) (*model.Task, error) {
+func (r *inMemoryTaskRepository) Update(ctx context.Context, task model.Task) (*model.Task, error) {
 	for _, v := range r.tasks {
 		if v.Id == task.Id {
 			r.tasks[v.Id].Name = task.Name
@@ -51,7 +55,7 @@ func (r *InMemoryTaskRepository) Update(task model.Task) (*model.Task, error) {
 	return nil, nil
 }
 
-func (r *InMemoryTaskRepository) Delete(id int) (bool, error) {
+func (r *inMemoryTaskRepository) Delete(ctx context.Context, id int) (bool, error) {
 	index := r.getIndex(id)
 	if index < 0 {
 		return false, nil
@@ -61,7 +65,7 @@ func (r *InMemoryTaskRepository) Delete(id int) (bool, error) {
 	return true, nil
 }
 
-func (r *InMemoryTaskRepository) createNewId() int {
+func (r *inMemoryTaskRepository) createNewId() int {
 	if len(r.tasks) > 0 {
 		return r.tasks[len(r.tasks)-1].Id + 1
 	} else {
@@ -69,7 +73,7 @@ func (r *InMemoryTaskRepository) createNewId() int {
 	}
 }
 
-func (r *InMemoryTaskRepository) get(id int) *model.Task {
+func (r *inMemoryTaskRepository) get(id int) *model.Task {
 	for _, v := range r.tasks {
 		if v.Id == id {
 			return &v
@@ -79,7 +83,7 @@ func (r *InMemoryTaskRepository) get(id int) *model.Task {
 	return nil
 }
 
-func (r *InMemoryTaskRepository) getIndex(id int) int {
+func (r *inMemoryTaskRepository) getIndex(id int) int {
 	for i, v := range r.tasks {
 		if v.Id == id {
 			return i
@@ -89,6 +93,6 @@ func (r *InMemoryTaskRepository) getIndex(id int) int {
 	return -1
 }
 
-func (r *InMemoryTaskRepository) remove(index int) []model.Task {
+func (r *inMemoryTaskRepository) remove(index int) []model.Task {
 	return append(r.tasks[:index], r.tasks[index+1:]...)
 }
