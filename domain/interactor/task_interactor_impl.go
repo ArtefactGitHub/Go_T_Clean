@@ -2,6 +2,8 @@ package interactor
 
 import (
 	"context"
+	"database/sql"
+	"time"
 
 	"github.com/ArtefactGitHub/Go_T_Clean/domain/model"
 	"github.com/ArtefactGitHub/Go_T_Clean/usecase/interfaces"
@@ -24,10 +26,12 @@ func (i taskInteractor) Get(ctx context.Context, id int) (*model.Task, error) {
 }
 
 func (i taskInteractor) Create(ctx context.Context, task model.Task) (int, error) {
+	task.CreatedAt = time.Now()
 	return i.repository.Create(ctx, task)
 }
 
 func (i taskInteractor) Update(ctx context.Context, task model.Task) (*model.Task, error) {
+	task.UpdatedAt = sql.NullTime{Time: time.Now(), Valid: true}
 	return i.repository.Update(ctx, task)
 }
 

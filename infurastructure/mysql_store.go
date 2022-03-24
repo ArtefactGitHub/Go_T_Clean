@@ -48,7 +48,9 @@ func (r *mySqlTaskRepository) GetAll(ctx context.Context) ([]model.Task, error) 
 	for rows.Next() {
 		err := rows.Scan(
 			&m.Id,
-			&m.Name)
+			&m.Name,
+			&m.CreatedAt,
+			&m.UpdatedAt)
 		if err != nil {
 			return nil, err
 		}
@@ -66,7 +68,9 @@ func (r *mySqlTaskRepository) Get(ctx context.Context, id int) (*model.Task, err
 	m := model.Task{}
 	err := r.db.QueryRowContext(ctx, "SELECT * FROM tasks WHERE id = ?", id).Scan(
 		&m.Id,
-		&m.Name)
+		&m.Name,
+		&m.CreatedAt,
+		&m.UpdatedAt)
 	if err == sql.ErrNoRows {
 		return nil, nil
 	} else if err != nil {
@@ -78,9 +82,11 @@ func (r *mySqlTaskRepository) Get(ctx context.Context, id int) (*model.Task, err
 
 func (r *mySqlTaskRepository) Create(ctx context.Context, m model.Task) (int, error) {
 	result, err := r.db.ExecContext(ctx, `
-		INSERT INTO tasks(id, name) values(?, ?)`,
+		INSERT INTO tasks(id, name, createdAt, updatedAt) values(?, ?, ?, ?)`,
 		nil,
-		m.Name)
+		m.Name,
+		m.CreatedAt,
+		m.UpdatedAt)
 	if err != nil {
 		return -1, err
 	}
@@ -97,9 +103,10 @@ func (r *mySqlTaskRepository) Create(ctx context.Context, m model.Task) (int, er
 func (r *mySqlTaskRepository) Update(ctx context.Context, m model.Task) (*model.Task, error) {
 	result, err := r.db.ExecContext(ctx, `
 		UPDATE tasks
-		SET name = ?
+		SET name = ?, updatedAt = ?
 		WHERE id = ?`,
 		m.Name,
+		m.UpdatedAt,
 		m.Id)
 	if err != nil {
 		return &m, err
