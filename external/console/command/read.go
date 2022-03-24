@@ -1,21 +1,22 @@
 package command
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"os"
 	"strconv"
 
-	"github.com/ArtefactGitHub/Go_T_Clean/domain/interactor"
+	"github.com/ArtefactGitHub/Go_T_Clean/usecase/interfaces"
 )
 
 type read struct {
 	args []string
 	id   int
-	interactor.TaskInteractor
+	interfaces.TaskInteractor
 }
 
-func newReadCommand(args []string, intr interactor.TaskInteractor) Command {
+func newReadCommand(args []string, intr interfaces.TaskInteractor) Command {
 	cmd := read{args: args, TaskInteractor: intr}
 	return &cmd
 }
@@ -31,7 +32,7 @@ func (cmd *read) Do() (bool, error) {
 		cmd.id = id
 	}
 
-	task, err := cmd.TaskInteractor.Get(cmd.id)
+	task, err := cmd.TaskInteractor.Get(context.TODO(), cmd.id)
 	if err != nil {
 		return false, err
 	} else if task == nil {

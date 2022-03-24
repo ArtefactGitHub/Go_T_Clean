@@ -7,19 +7,36 @@ import (
 	"strings"
 
 	"github.com/ArtefactGitHub/Go_T_Clean/domain/interactor"
+	"github.com/ArtefactGitHub/Go_T_Clean/external/common"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/console/command"
+	"github.com/ArtefactGitHub/Go_T_Clean/infurastructure"
+	"github.com/ArtefactGitHub/Go_T_Clean/usecase/interfaces"
 )
 
-type App struct {
-	interactor interactor.TaskInteractor
+type consoleApp struct {
+	deployType common.DeployType
+	storeType  common.StoreType
+	interactor interfaces.TaskInteractor
+	repository interfaces.TaskRepository
 }
 
-func (app *App) Run() {
-	app.interactor = interactor.NewTaskInteractor()
-	_ = app.stringPrompt("\n" + `Input <Command> or "help" or press Enter to exit.`)
+func NewConsoleApp(deployType common.DeployType, storeType common.StoreType) common.App {
+	app := consoleApp{deployType: deployType, storeType: storeType}
+	return &app
 }
 
-func (app *App) stringPrompt(label string) error {
+func (app *consoleApp) Run() error {
+	var err error
+	app.repository, err = infurastructure.NewInMemoryTaskRepository()
+	if err != nil {
+		return err
+	}
+	app.interactor = interactor.NewTaskInteractor(app.repository)
+
+	return app.stringPrompt("\n" + `Input <Command> or "help" or press Enter to exit.`)
+}
+
+func (app *consoleApp) stringPrompt(label string) error {
 	var s string
 	r := bufio.NewReader(os.Stdin)
 	for {
@@ -44,7 +61,7 @@ func (app *App) stringPrompt(label string) error {
 	return nil
 }
 
-func (app *App) parseCommand(input string) (command.Command, error) {
+func (app *consoleApp) parseCommand(input string) (command.Command, error) {
 	trimed := strings.TrimSpace(input)
 
 	splits := strings.Split(trimed, " ")

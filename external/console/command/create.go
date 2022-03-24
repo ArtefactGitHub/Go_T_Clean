@@ -1,20 +1,21 @@
 package command
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"os"
 
-	"github.com/ArtefactGitHub/Go_T_Clean/domain/interactor"
 	"github.com/ArtefactGitHub/Go_T_Clean/domain/model"
+	"github.com/ArtefactGitHub/Go_T_Clean/usecase/interfaces"
 )
 
 type create struct {
 	args []string
-	interactor.TaskInteractor
+	interfaces.TaskInteractor
 }
 
-func newCreateCommand(args []string, intr interactor.TaskInteractor) Command {
+func newCreateCommand(args []string, intr interfaces.TaskInteractor) Command {
 	cmd := create{args: args, TaskInteractor: intr}
 	return &cmd
 }
@@ -25,7 +26,7 @@ func (cmd *create) Do() (bool, error) {
 	}
 
 	task := model.NewTask(0, cmd.args[1])
-	id, err := cmd.TaskInteractor.Create(task)
+	id, err := cmd.TaskInteractor.Create(context.TODO(), task)
 	if err != nil {
 		return false, err
 	}

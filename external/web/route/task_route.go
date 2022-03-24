@@ -5,14 +5,15 @@ import (
 
 	"github.com/ArtefactGitHub/Go_T_Clean/external/web/controller"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/web/model"
+	"github.com/ArtefactGitHub/Go_T_Clean/usecase/interfaces"
 )
 
 type TaskRoute struct {
 	controller *controller.TaskController
 }
 
-func NewTaskRoute() TaskRoute {
-	c := controller.NewTaskController()
+func NewTaskRoute(interactor interfaces.TaskInteractor) TaskRoute {
+	c := controller.NewTaskController(interactor)
 	return TaskRoute{controller: &c}
 }
 

@@ -1,21 +1,22 @@
 package command
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"os"
 	"strconv"
 
-	"github.com/ArtefactGitHub/Go_T_Clean/domain/interactor"
+	"github.com/ArtefactGitHub/Go_T_Clean/usecase/interfaces"
 )
 
 type delete struct {
 	args []string
 	id   int
-	interactor.TaskInteractor
+	interfaces.TaskInteractor
 }
 
-func newDeleteCommand(args []string, intr interactor.TaskInteractor) Command {
+func newDeleteCommand(args []string, intr interfaces.TaskInteractor) Command {
 	cmd := delete{args: args, TaskInteractor: intr}
 	return &cmd
 }
@@ -31,7 +32,7 @@ func (cmd *delete) Do() (bool, error) {
 		cmd.id = id
 	}
 
-	success, err := cmd.TaskInteractor.Delete(cmd.id)
+	success, err := cmd.TaskInteractor.Delete(context.TODO(), cmd.id)
 	if err != nil {
 		return false, err
 	}

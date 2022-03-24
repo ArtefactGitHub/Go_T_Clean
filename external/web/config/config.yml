@@ -1,0 +1,8 @@
+url: localhost
+port: 8080
+sqldriver: mysql
+user: ${Go_T_Clean_DB_USER}
+password: ${Go_T_Clean_DB_PASSWORD}
+protocol: tcp
+address: 127.0.0.1:3306
+database: Go_T_Clean?parseTime=true

@@ -1,22 +1,23 @@
 package command
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"os"
 	"strconv"
 
-	"github.com/ArtefactGitHub/Go_T_Clean/domain/interactor"
 	"github.com/ArtefactGitHub/Go_T_Clean/domain/model"
+	"github.com/ArtefactGitHub/Go_T_Clean/usecase/interfaces"
 )
 
 type update struct {
 	args []string
 	id   int
-	interactor.TaskInteractor
+	interfaces.TaskInteractor
 }
 
-func newUpdateCommand(args []string, intr interactor.TaskInteractor) Command {
+func newUpdateCommand(args []string, intr interfaces.TaskInteractor) Command {
 	cmd := update{args: args, TaskInteractor: intr}
 	return &cmd
 }
@@ -34,7 +35,7 @@ func (cmd *update) Do() (bool, error) {
 	}
 
 	task := model.NewTask(cmd.id, cmd.args[2])
-	updated, err := cmd.TaskInteractor.Update(task)
+	updated, err := cmd.TaskInteractor.Update(context.TODO(), task)
 	if err != nil {
 		return false, err
 	} else if updated == nil {
