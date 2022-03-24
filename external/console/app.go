@@ -9,7 +9,7 @@ import (
 	"github.com/ArtefactGitHub/Go_T_Clean/domain/interactor"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/common"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/console/command"
-	"github.com/ArtefactGitHub/Go_T_Clean/infurastructure"
+	"github.com/ArtefactGitHub/Go_T_Clean/external/infurastructure"
 	"github.com/ArtefactGitHub/Go_T_Clean/usecase/interfaces"
 )
 

@@ -5,7 +5,7 @@ import (
 	"database/sql"
 
 	"github.com/ArtefactGitHub/Go_T_Clean/domain/model"
-	ifmodel "github.com/ArtefactGitHub/Go_T_Clean/infurastructure/model"
+	ifmodel "github.com/ArtefactGitHub/Go_T_Clean/external/infurastructure/model"
 	"github.com/ArtefactGitHub/Go_T_Clean/usecase/interfaces"
 )
 
