@@ -7,13 +7,13 @@ import (
 
 	"github.com/ArtefactGitHub/Go_T_Clean/domain/interactor"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/common"
+	"github.com/ArtefactGitHub/Go_T_Clean/external/infurastructure"
+	ifmodel "github.com/ArtefactGitHub/Go_T_Clean/external/infurastructure/model"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/web/config"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/web/controller"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/web/middleware"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/web/model"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/web/route"
-	"github.com/ArtefactGitHub/Go_T_Clean/infurastructure"
-	ifmodel "github.com/ArtefactGitHub/Go_T_Clean/infurastructure/model"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
 )
