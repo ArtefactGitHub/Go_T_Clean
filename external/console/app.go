@@ -9,7 +9,7 @@ import (
 	"github.com/ArtefactGitHub/Go_T_Clean/domain/model/task"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/common"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/console/command"
-	"github.com/ArtefactGitHub/Go_T_Clean/external/infurastructure"
+	itask "github.com/ArtefactGitHub/Go_T_Clean/external/infurastructure/persistence/inmemory/task"
 	utask "github.com/ArtefactGitHub/Go_T_Clean/usecase/task"
 )
 
@@ -27,7 +27,7 @@ func NewConsoleApp(deployType common.DeployType, storeType common.StoreType) com
 
 func (app *consoleApp) Run() error {
 	var err error
-	app.repository, err = infurastructure.NewInMemoryTaskRepository()
+	app.repository, err = itask.NewInMemoryTaskRepository()
 	if err != nil {
 		return err
 	}

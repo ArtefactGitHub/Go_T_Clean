@@ -5,14 +5,14 @@ import (
 	"database/sql"
 
 	"github.com/ArtefactGitHub/Go_T_Clean/domain/model/task"
-	ifmodel "github.com/ArtefactGitHub/Go_T_Clean/external/infurastructure/model"
+	setting "github.com/ArtefactGitHub/Go_T_Clean/external/infurastructure/persistence/rdb/mysql/setting"
 )
 
 type mySqlTaskRepository struct {
 	db *sql.DB
 }
 
-func NewMySqlTaskRepository(setting ifmodel.MySqlSetting) (task.TaskRepository, error) {
+func NewMySqlTaskRepository(setting setting.MySqlSetting) (task.TaskRepository, error) {
 	db, err := sql.Open(setting.DriverName(), setting.DataSourceName())
 	if err != nil {
 		return nil, err
