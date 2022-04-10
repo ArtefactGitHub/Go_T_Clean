@@ -4,16 +4,15 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/ArtefactGitHub/Go_T_Clean/domain/model"
+	"github.com/ArtefactGitHub/Go_T_Clean/domain/model/task"
 	ifmodel "github.com/ArtefactGitHub/Go_T_Clean/external/infurastructure/model"
-	"github.com/ArtefactGitHub/Go_T_Clean/usecase/interfaces"
 )
 
 type mySqlTaskRepository struct {
 	db *sql.DB
 }
 
-func NewMySqlTaskRepository(setting ifmodel.MySqlSetting) (interfaces.TaskRepository, error) {
+func NewMySqlTaskRepository(setting ifmodel.MySqlSetting) (task.TaskRepository, error) {
 	db, err := sql.Open(setting.DriverName(), setting.DataSourceName())
 	if err != nil {
 		return nil, err
@@ -36,15 +35,15 @@ func (r *mySqlTaskRepository) Finalize() {
 	}
 }
 
-func (r *mySqlTaskRepository) GetAll(ctx context.Context) ([]model.Task, error) {
+func (r *mySqlTaskRepository) GetAll(ctx context.Context) ([]task.Task, error) {
 	rows, err := r.db.QueryContext(ctx, "SELECT * FROM tasks")
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	var m model.Task
-	var result []model.Task
+	var m task.Task
+	var result []task.Task
 	for rows.Next() {
 		err := rows.Scan(
 			&m.Id,
@@ -64,8 +63,8 @@ func (r *mySqlTaskRepository) GetAll(ctx context.Context) ([]model.Task, error) 
 	return result, nil
 }
 
-func (r *mySqlTaskRepository) Get(ctx context.Context, id int) (*model.Task, error) {
-	m := model.Task{}
+func (r *mySqlTaskRepository) Get(ctx context.Context, id int) (*task.Task, error) {
+	m := task.Task{}
 	err := r.db.QueryRowContext(ctx, "SELECT * FROM tasks WHERE id = ?", id).Scan(
 		&m.Id,
 		&m.Name,
@@ -80,7 +79,7 @@ func (r *mySqlTaskRepository) Get(ctx context.Context, id int) (*model.Task, err
 	return &m, nil
 }
 
-func (r *mySqlTaskRepository) Create(ctx context.Context, m model.Task) (int, error) {
+func (r *mySqlTaskRepository) Create(ctx context.Context, m task.Task) (int, error) {
 	result, err := r.db.ExecContext(ctx, `
 		INSERT INTO tasks(id, name, createdAt, updatedAt) values(?, ?, ?, ?)`,
 		nil,
@@ -100,7 +99,7 @@ func (r *mySqlTaskRepository) Create(ctx context.Context, m model.Task) (int, er
 	return m.Id, nil
 }
 
-func (r *mySqlTaskRepository) Update(ctx context.Context, m model.Task) (*model.Task, error) {
+func (r *mySqlTaskRepository) Update(ctx context.Context, m task.Task) (*task.Task, error) {
 	result, err := r.db.ExecContext(ctx, `
 		UPDATE tasks
 		SET name = ?, updatedAt = ?

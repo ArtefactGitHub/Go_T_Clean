@@ -6,15 +6,15 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/ArtefactGitHub/Go_T_Clean/usecase/interfaces"
+	"github.com/ArtefactGitHub/Go_T_Clean/usecase/task"
 )
 
 type readall struct {
 	args []string
-	interfaces.TaskInteractor
+	task.TaskInteractor
 }
 
-func newReadAllCommand(args []string, intr interfaces.TaskInteractor) Command {
+func newReadAllCommand(args []string, intr task.TaskInteractor) Command {
 	cmd := readall{args: args, TaskInteractor: intr}
 	return &cmd
 }

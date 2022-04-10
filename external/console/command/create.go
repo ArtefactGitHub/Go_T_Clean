@@ -6,16 +6,16 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/ArtefactGitHub/Go_T_Clean/domain/model"
-	"github.com/ArtefactGitHub/Go_T_Clean/usecase/interfaces"
+	"github.com/ArtefactGitHub/Go_T_Clean/domain/model/task"
+	utask "github.com/ArtefactGitHub/Go_T_Clean/usecase/task"
 )
 
 type create struct {
 	args []string
-	interfaces.TaskInteractor
+	utask.TaskInteractor
 }
 
-func newCreateCommand(args []string, intr interfaces.TaskInteractor) Command {
+func newCreateCommand(args []string, intr utask.TaskInteractor) Command {
 	cmd := create{args: args, TaskInteractor: intr}
 	return &cmd
 }
@@ -25,13 +25,13 @@ func (cmd *create) Do() (bool, error) {
 		return true, errors.New("invalid argument")
 	}
 
-	task := model.NewTask(0, cmd.args[1])
+	task := task.NewTask(0, cmd.args[1])
 	id, err := cmd.TaskInteractor.Create(context.TODO(), task)
 	if err != nil {
 		return false, err
 	}
 
-	result := fmt.Sprintf("create success. [%d][%s]\n", id, task.Name)
+	result := fmt.Sprintf("create success.\n[%d][%s]\n", id, task.Name)
 	fmt.Fprint(os.Stdout, result)
 	return true, nil
 }

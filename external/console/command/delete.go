@@ -7,16 +7,16 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/ArtefactGitHub/Go_T_Clean/usecase/interfaces"
+	"github.com/ArtefactGitHub/Go_T_Clean/usecase/task"
 )
 
 type delete struct {
 	args []string
 	id   int
-	interfaces.TaskInteractor
+	task.TaskInteractor
 }
 
-func newDeleteCommand(args []string, intr interfaces.TaskInteractor) Command {
+func newDeleteCommand(args []string, intr task.TaskInteractor) Command {
 	cmd := delete{args: args, TaskInteractor: intr}
 	return &cmd
 }

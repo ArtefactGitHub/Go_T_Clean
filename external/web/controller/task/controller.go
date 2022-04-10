@@ -1,4 +1,4 @@
-package controller
+package task
 
 import (
 	"fmt"
@@ -6,19 +6,19 @@ import (
 	"strconv"
 	"text/template"
 
-	"github.com/ArtefactGitHub/Go_T_Clean/domain/model"
+	"github.com/ArtefactGitHub/Go_T_Clean/domain/model/task"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/web/config"
-	"github.com/ArtefactGitHub/Go_T_Clean/usecase/interfaces"
+	utask "github.com/ArtefactGitHub/Go_T_Clean/usecase/task"
 	"github.com/gorilla/mux"
 )
 
 const taskViewFilePath string = "task/"
 
 type TaskController struct {
-	taskInteractor interfaces.TaskInteractor
+	taskInteractor utask.TaskInteractor
 }
 
-func NewTaskController(interactor interfaces.TaskInteractor) TaskController {
+func NewTaskController(interactor utask.TaskInteractor) TaskController {
 	i := interactor
 	return TaskController{taskInteractor: i}
 }
@@ -41,7 +41,7 @@ func (c TaskController) New(w http.ResponseWriter, r *http.Request) {
 
 func (c TaskController) Create(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
-	task := model.NewTask(0, r.Form.Get("name"))
+	task := task.NewTask(0, r.Form.Get("name"))
 
 	id, err := c.taskInteractor.Create(r.Context(), task)
 	if err != nil {
@@ -97,7 +97,7 @@ func (c TaskController) Update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	r.ParseForm()
-	task := model.NewTask(id, r.Form.Get("name"))
+	task := task.NewTask(id, r.Form.Get("name"))
 
 	_, err = c.taskInteractor.Update(r.Context(), task)
 	if err != nil {

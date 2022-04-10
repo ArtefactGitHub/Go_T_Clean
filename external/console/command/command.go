@@ -4,14 +4,14 @@ import (
 	"errors"
 
 	"github.com/ArtefactGitHub/Go_T_Clean/external/console/constant"
-	"github.com/ArtefactGitHub/Go_T_Clean/usecase/interfaces"
+	"github.com/ArtefactGitHub/Go_T_Clean/usecase/task"
 )
 
 type Command interface {
 	Do() (bool, error)
 }
 
-func NewCommand(intr interfaces.TaskInteractor, args []string) (Command, error) {
+func NewCommand(intr task.TaskInteractor, args []string) (Command, error) {
 	length := len(args)
 	if length == 0 {
 		return nil, errors.New("invalid input. please check the help")

@@ -6,18 +6,18 @@ import (
 	"os"
 	"strings"
 
-	"github.com/ArtefactGitHub/Go_T_Clean/domain/interactor"
+	"github.com/ArtefactGitHub/Go_T_Clean/domain/model/task"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/common"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/console/command"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/infurastructure"
-	"github.com/ArtefactGitHub/Go_T_Clean/usecase/interfaces"
+	utask "github.com/ArtefactGitHub/Go_T_Clean/usecase/task"
 )
 
 type consoleApp struct {
 	deployType common.DeployType
 	storeType  common.StoreType
-	interactor interfaces.TaskInteractor
-	repository interfaces.TaskRepository
+	interactor utask.TaskInteractor
+	repository task.TaskRepository
 }
 
 func NewConsoleApp(deployType common.DeployType, storeType common.StoreType) common.App {
@@ -31,7 +31,7 @@ func (app *consoleApp) Run() error {
 	if err != nil {
 		return err
 	}
-	app.interactor = interactor.NewTaskInteractor(app.repository)
+	app.interactor = utask.NewTaskInteractor(app.repository)
 
 	return app.stringPrompt("\n" + `Input <Command> or "help" or press Enter to exit.`)
 }
