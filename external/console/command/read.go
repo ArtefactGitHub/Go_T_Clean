@@ -7,16 +7,16 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/ArtefactGitHub/Go_T_Clean/usecase/interfaces"
+	"github.com/ArtefactGitHub/Go_T_Clean/usecase/task"
 )
 
 type read struct {
 	args []string
 	id   int
-	interfaces.TaskInteractor
+	task.TaskInteractor
 }
 
-func newReadCommand(args []string, intr interfaces.TaskInteractor) Command {
+func newReadCommand(args []string, intr task.TaskInteractor) Command {
 	cmd := read{args: args, TaskInteractor: intr}
 	return &cmd
 }

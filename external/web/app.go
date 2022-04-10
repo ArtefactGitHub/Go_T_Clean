@@ -5,15 +5,16 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/ArtefactGitHub/Go_T_Clean/domain/interactor"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/common"
-	"github.com/ArtefactGitHub/Go_T_Clean/external/infurastructure"
-	ifmodel "github.com/ArtefactGitHub/Go_T_Clean/external/infurastructure/model"
+	inmemory "github.com/ArtefactGitHub/Go_T_Clean/external/infurastructure/persistence/inmemory/task"
+	setting "github.com/ArtefactGitHub/Go_T_Clean/external/infurastructure/persistence/rdb/mysql/setting"
+	rdb "github.com/ArtefactGitHub/Go_T_Clean/external/infurastructure/persistence/rdb/mysql/task"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/web/config"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/web/controller"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/web/middleware"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/web/model"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/web/route"
+	"github.com/ArtefactGitHub/Go_T_Clean/usecase/task"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
 )
@@ -54,23 +55,23 @@ func (app *webApp) Run() error {
 
 func (app *webApp) getRoutes(cfg config.MyConfig) []model.Route {
 	if app.storeType.IsMySql() {
-		repository, err := infurastructure.NewMySqlTaskRepository(
-			ifmodel.NewMySqlSetting(
+		repository, err := rdb.NewMySqlTaskRepository(
+			setting.NewMySqlSetting(
 				cfg.SqlDriver, cfg.User, cfg.Password, cfg.Protocol, cfg.Address, cfg.DataBase,
 			))
 		if err != nil {
 			log.Fatalf("NewMySqlTaskRepository() error: %s", err.Error())
 		}
 
-		interactor := interactor.NewTaskInteractor(repository)
+		interactor := task.NewTaskInteractor(repository)
 		return route.NewTaskRoute(interactor).GetRoutes()
 	} else {
-		repository, err := infurastructure.NewInMemoryTaskRepository()
+		repository, err := inmemory.NewInMemoryTaskRepository()
 		if err != nil {
 			log.Fatalf("NewInMemoryTaskRepository() error: %s", err.Error())
 		}
 
-		interactor := interactor.NewTaskInteractor(repository)
-		return route.NewTaskRoute(interactor).GetRoutes()
+		task := task.NewTaskInteractor(repository)
+		return route.NewTaskRoute(task).GetRoutes()
 	}
 }

@@ -7,17 +7,17 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/ArtefactGitHub/Go_T_Clean/domain/model"
-	"github.com/ArtefactGitHub/Go_T_Clean/usecase/interfaces"
+	"github.com/ArtefactGitHub/Go_T_Clean/domain/model/task"
+	utask "github.com/ArtefactGitHub/Go_T_Clean/usecase/task"
 )
 
 type update struct {
 	args []string
 	id   int
-	interfaces.TaskInteractor
+	utask.TaskInteractor
 }
 
-func newUpdateCommand(args []string, intr interfaces.TaskInteractor) Command {
+func newUpdateCommand(args []string, intr utask.TaskInteractor) Command {
 	cmd := update{args: args, TaskInteractor: intr}
 	return &cmd
 }
@@ -26,7 +26,7 @@ func (cmd *update) Do() (bool, error) {
 	if len(cmd.args) != 3 {
 		return true, errors.New("invalid argument")
 	}
-	fmt.Fprintf(os.Stdout, "%v", cmd.args)
+	fmt.Fprintf(os.Stdout, "%v\n", cmd.args)
 
 	if id, err := strconv.Atoi(cmd.args[1]); err != nil {
 		return true, errors.New("invalid argument")
@@ -34,7 +34,7 @@ func (cmd *update) Do() (bool, error) {
 		cmd.id = id
 	}
 
-	task := model.NewTask(cmd.id, cmd.args[2])
+	task := task.NewTask(cmd.id, cmd.args[2])
 	updated, err := cmd.TaskInteractor.Update(context.TODO(), task)
 	if err != nil {
 		return false, err
@@ -42,7 +42,7 @@ func (cmd *update) Do() (bool, error) {
 		return true, fmt.Errorf("not found. id: %d", cmd.id)
 	}
 
-	result := fmt.Sprintf("update success. [%d][%s]\n", updated.Id, updated.Name)
+	result := fmt.Sprintf("update success.\n[%d][%s]\n", updated.Id, updated.Name)
 	fmt.Fprint(os.Stdout, result)
 	return true, nil
 }

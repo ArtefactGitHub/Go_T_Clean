@@ -3,17 +3,17 @@ package route
 import (
 	"net/http"
 
-	"github.com/ArtefactGitHub/Go_T_Clean/external/web/controller"
+	"github.com/ArtefactGitHub/Go_T_Clean/external/web/controller/task"
 	"github.com/ArtefactGitHub/Go_T_Clean/external/web/model"
-	"github.com/ArtefactGitHub/Go_T_Clean/usecase/interfaces"
+	utask "github.com/ArtefactGitHub/Go_T_Clean/usecase/task"
 )
 
 type TaskRoute struct {
-	controller *controller.TaskController
+	controller *task.TaskController
 }
 
-func NewTaskRoute(interactor interfaces.TaskInteractor) TaskRoute {
-	c := controller.NewTaskController(interactor)
+func NewTaskRoute(interactor utask.TaskInteractor) TaskRoute {
+	c := task.NewTaskController(interactor)
 	return TaskRoute{controller: &c}
 }
 
