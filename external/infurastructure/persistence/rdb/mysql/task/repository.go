@@ -1,4 +1,4 @@
-package infurastructure
+package task
 
 import (
 	"context"
